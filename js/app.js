@@ -14,7 +14,9 @@ const optionValueField = document.getElementById('provider')
 const topUpDisplayList = document.getElementById('toup-list-display');
 const submitBtn = document.getElementById('submit-btn');
 // last seven days data 
-const lastSevenDaysData = document.getElementById('filter-radio-example-2')
+const lastSevenDaysData = document.getElementById('filter-radio-example-2');
+//data search input
+const searchField = document.getElementById('table-search');
 
 // geeting localstorage list if not found it's give empty arry
 let topUpList = JSON.parse(localStorage.getItem('topUp')) || [];
@@ -93,7 +95,23 @@ lastSevenDaysData.addEventListener('click', function(){
     topUpDisplayList.innerHTML = '';
     showTopUpList(filteredData); // Show filtered data
 })
-
+// search event 
+searchField.addEventListener('keyup', function(e){
+    const searchFieldValue = searchField.value.toUpperCase();
+    let myTable = document.getElementById('my-table');
+    let myTableRow = myTable.getElementsByTagName('tr');
+    for(let i = 0; i < myTableRow.length; i++){
+        let th = myTableRow[i].getElementsByTagName('th')[0];
+        if(th){
+            let textValue = th.textContent || th.innerHTML;
+            if(textValue.toUpperCase().indexOf(searchFieldValue) > -1){
+                myTableRow[i].style.display = '';
+            }else{
+                myTableRow[i].style.display = "none";
+            }
+        }
+    }
+})
 // click event at submit btn
 submitBtn.addEventListener('click', function(){
     const phoneValue = phoneInputField.value;
